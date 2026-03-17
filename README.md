@@ -36,7 +36,7 @@ offline, on your hardware.
 ```bash
 # Clone the repository
 git clone https://github.com/SaiMani-Ritish/NeoMint.git
-cd neomint-os
+cd NeoMint
 
 # Run the one-shot installer (Linux Mint / Ubuntu-based only)
 chmod +x install.sh
