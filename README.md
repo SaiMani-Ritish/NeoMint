@@ -23,7 +23,7 @@ offline, on your hardware.
 │   Intent → Plan → Tool Call → Observe → Loop     │
 ├──────────────────────────────────────────────────┤
 │              MCP Server  (Python)                │
-│ list_files│run_command│open_app│clipboard│…       │
+│ list_files│run_command│open_app│clipboard│…      │
 ├──────────────────────────────────────────────────┤
 │         Ollama + NeoMint-3B  (Local LLM)         │
 ├──────────────────────────────────────────────────┤
@@ -47,15 +47,15 @@ chmod +x install.sh
 
 ## Project Structure
 
-| Directory       | Description                                        |
-|-----------------|----------------------------------------------------|
-| `mcp-server/`   | Python MCP server exposing OS-level tools          |
-| `agent/`         | Python agentic loop (LLM ↔ MCP orchestrator)      |
-| `overlay-ui/`   | Tauri v2 floating natural language input bar        |
-| `fine-tuning/`  | LoRA fine-tuning scripts (Unsloth, Colab-ready)    |
-| `eval/`          | Evaluation suite and benchmarks                    |
-| `datasets/`     | OS task instruction datasets (raw + processed)      |
-| `docs/`          | Architecture diagrams and capstone paper           |
+| Directory       | Description                                       |
+|-----------------|---------------------------------------------------|
+| `mcp-server/`   | Python MCP server exposing OS-level tools         |
+| `agent/`        | Python agentic loop (LLM ↔ MCP orchestrator)      |
+| `overlay-ui/`   | Tauri v2 floating natural language input bar      |
+| `fine-tuning/`  | LoRA fine-tuning scripts (Unsloth, Colab-ready)   |
+| `eval/`         | Evaluation suite and benchmarks                   |
+| `datasets/`     | OS task instruction datasets (raw + processed)    |
+| `docs/`         | Architecture diagrams and capstone paper          |
 
 ## Requirements
 
@@ -90,11 +90,11 @@ pip install -e ".[dev]"
 |----------------|-------------------------------------------|
 | Base OS        | Linux Mint (Debian-based)                 |
 | LLM Runtime    | Ollama (local, CPU inference)             |
-| Model          | NeoMint-3B (LoRA fine-tuned Qwen2.5-3B)  |
-| MCP Server     | Python 3.11+, `mcp` SDK, asyncio         |
+| Model          | NeoMint-3B (LoRA fine-tuned Qwen2.5-3B)   |
+| MCP Server     | Python 3.11+, `mcp` SDK, asyncio          |
 | Agent Loop     | Raw async Python, httpx                   |
 | Overlay UI     | Tauri v2 (Rust + React + TypeScript)      |
-| Fine-Tuning    | Unsloth, LoRA, GGUF Q4_K_M quantization  |
+| Fine-Tuning    | Unsloth, LoRA, GGUF Q4_K_M quantization   |
 
 ## Known Limitations
 
