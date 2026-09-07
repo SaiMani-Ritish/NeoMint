@@ -116,7 +116,3 @@ pip install -e ".[dev]"
 ## License
 
 MIT
-
-## Author
-
-**Sai Mani Ritish** — MSCS Capstone, City University of Seattle
