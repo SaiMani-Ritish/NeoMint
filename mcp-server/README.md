@@ -1,70 +1,56 @@
 # NeoMint MCP Server
 
-Python MCP (Model Context Protocol) server that exposes OS-level tools
-for the NeoMint agentic loop.
+NeoMint's MCP server is the constrained capability layer between an agent and the local Linux desktop. It is intentionally not a general shell-control interface: tools should be typed, scoped, inspectable, policy-checked, and auditable.
 
-## Tools
+## Session 0 demo
 
-| Tool               | Description                          | Parameters              |
-|--------------------|--------------------------------------|-------------------------|
-| `list_files`       | List directory contents              | `path: str`             |
-| `read_file`        | Read a file's text content           | `path: str`             |
-| `write_file`       | Write/overwrite a file               | `path: str, content: str` |
-| `run_command`      | Run a shell command (allowlisted)    | `cmd: str`              |
-| `open_application` | Launch a GUI app by name             | `app_name: str`         |
-| `get_clipboard`    | Get current clipboard text           | —                       |
-| `set_clipboard`    | Set clipboard text                   | `text: str`             |
+Session 0 provides a terminal-based, local-first proof of the NeoMint user flow:
 
-## Response Format
-
-All tools return a standardized JSON response:
-
-```json
-{
-  "success": true,
-  "result": "...",
-  "error": null
-}
+```text
+request → typed action plan → preview → approval when required → execution → JSON audit event
 ```
 
-## Setup
+It contains no remote-model calls, no root escalation, no package management, no networking, and no destructive file actions.
+
+### Install
 
 ```bash
 cd mcp-server
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -e .
 ```
 
-## Running
+### Run
 
 ```bash
-# Start the MCP server (stdio transport)
-neomint-mcp
-
-# Use the CLI test harness
-python cli.py list_files '{"path": "/home"}'
-python cli.py run_command '{"cmd": "ls -la"}'
+python cli.py session
 ```
 
-## Testing
+Then try:
+
+```text
+find recent PDFs
+open firefox
+copy NeoMint stays local-first
+help
+quit
+```
+
+`find recent PDFs` is read-only. `open <application>` and `copy <text>` require you to type `yes` after a plan preview. Unknown requests return a clarification response; they are never transformed into shell commands.
+
+For GUI actions, run the session from your active Mint desktop session. Clipboard support uses `wl-copy` (Wayland) or `xclip` (X11).
+
+### Test
 
 ```bash
-pytest
+pytest tests -q
 ```
 
-## Safety
+## Design rules
 
-- `run_command` validates commands against a configurable allowlist before execution
-- `write_file` operations are logged and can require confirmation
-- All tool calls are logged with timestamps
-
-## Configuration
-
-Copy `.env.example` to `.env` and adjust:
-
-```bash
-cp .env.example .env
-```
-
-See `.env.example` for available options.
+- The UI and model have no direct system authority.
+- The capability layer owns validation, permissions, previews, execution, and audit events.
+- Risk classification is deterministic policy, not a model decision.
+- Shell access is a narrow compatibility fallback, never the default action format.
+- Every new tool must include a typed contract, permission scope, preview, audit event, and evaluation case.
