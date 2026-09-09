@@ -1,6 +1,6 @@
-# NeoMint OS
+# NeoMint
 
-> A locally-deployed agentic LLM interface layer for natural language OS interaction.
+> A local-first, AI-native desktop shell for Linux Mint. NeoMint converts user intent into transparent, policy-checked local actions through a text-first overlay, small local models, constrained capabilities, explicit previews, confirmations, local audit logs, and resource budgets.
 
 NeoMint transforms Linux Mint into an intent-driven operating system. Instead of
 navigating menus, clicking icons, and memorizing terminal commands, you press
@@ -55,7 +55,7 @@ chmod +x install.sh
 | `fine-tuning/`  | LoRA fine-tuning scripts (Unsloth, Colab-ready)   |
 | `eval/`         | Evaluation suite and benchmarks                   |
 | `datasets/`     | OS task instruction datasets (raw + processed)    |
-| `docs/`         | Architecture diagrams and capstone paper          |
+| `docs/`         | Architecture, safety model, UX spec, and project documentation |
 
 ## Requirements
 
@@ -106,12 +106,17 @@ pip install -e ".[dev]"
 
 ## Roadmap
 
-- [x] Phase 1: MCP server with OS tool layer
-- [ ] Phase 2: Fine-tuned NeoMint-3B model
-- [ ] Phase 3: Agentic loop with safety guardrails
+- [x] Phase 2, Session 0: Typed planning, previews, confirmation, audit events
+- [ ] Phase 3: Agentic loop and safety guardrails
 - [ ] Phase 4: Floating overlay UI
-- [ ] Phase 5: Evaluation suite and capstone paper
+- [ ] Phase 5: Evaluation and release readiness
 - [ ] Future: Vision model, voice input, multi-agent decomposition, bootable ISO
+
+See [docs/roadmap.md](docs/roadmap.md) for the full roadmap.
+
+## Safety
+
+NeoMint enforces a strict safety model: every action has a typed contract, risk classification, and audit record. State-changing actions require explicit user approval. Destructive operations are disabled by default. See [docs/safety-model.md](docs/safety-model.md) for details.
 
 ## License
 

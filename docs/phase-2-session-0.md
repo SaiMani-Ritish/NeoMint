@@ -1,4 +1,6 @@
-# NeoMint Session 0 — Local-first vertical slice
+# Phase 2, Session 0 — Local-first vertical slice
+
+> Historical implementation record. For the current roadmap, see [roadmap.md](roadmap.md).
 
 ## Product boundary
 

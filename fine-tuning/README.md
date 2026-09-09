@@ -74,4 +74,4 @@ ollama run neomint-3b
 
 - **LoRA adapters**: `neomint-3b-lora/` (~50-100 MB)
 - **GGUF model**: `neomint-3b-unsloth-Q4_K_M.gguf` (~1.8 GB)
-- **Training summary**: `training_summary.json` (metrics for the capstone paper)
+- **Training summary**: `training_summary.json` (metrics for project documentation)

@@ -1,4 +1,7 @@
 # NeoMint project setup and MCP server
+
+> **Historical:** Original project setup transcript. For the current architecture, see [architecture.md](architecture.md). For the current roadmap, see [roadmap.md](roadmap.md).
+
 _Exported on 3/16/2026 at 23:34:56 PDT from Cursor (2.6.19)_
 
 ---

@@ -1,4 +1,6 @@
-# Ritish's Task List — Outside Cursor
+# Project Notes — Manual Tasks
+
+> **Historical:** Personal working notes from initial development. For the current roadmap, see [roadmap.md](roadmap.md).
 
 > Everything here is YOUR manual work. Phases 3–5 code will be built for you in Cursor.
 > Last updated: March 17, 2026
