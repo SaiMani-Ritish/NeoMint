@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neomint.local/schemas/action-plan.schema.json",
+  "title": "NeoMint Planner Output",
+  "description": "The model must return exactly one of: plan, clarification, or refusal. The model must NOT include fields like requires_confirmation, permission, risk, or execute — those are owned by the deterministic policy engine.",
+  "oneOf": [
+    { "$ref": "#/$defs/plan" },
+    { "$ref": "#/$defs/clarification" },
+    { "$ref": "#/$defs/refusal" }
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "plan" },
+        "user_facing_summary": {
+          "type": "string",
+          "description": "A concise, plain-language summary of what the plan will do. Shown to the user before approval."
+        },
+        "actions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/action" },
+          "minItems": 1,
+          "maxItems": 5,
+          "description": "Ordered list of typed tool calls. Maximum 5 actions per plan."
+        }
+      },
+      "required": ["kind", "user_facing_summary", "actions"],
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "description": "Tool name from the tool manifest. Must be an exact match."
+        },
+        "arguments": {
+          "type": "object",
+          "description": "Tool-specific arguments conforming to the tool's schema."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "One-sentence explanation of what this specific action does."
+        }
+      },
+      "required": ["tool", "arguments", "explanation"],
+      "additionalProperties": false
+    },
+    "clarification": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "clarification" },
+        "question": {
+          "type": "string",
+          "description": "A specific clarifying question to ask the user."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why clarification is needed."
+        }
+      },
+      "required": ["kind", "question", "reason"],
+      "additionalProperties": false
+    },
+    "refusal": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "refusal" },
+        "message": {
+          "type": "string",
+          "description": "Explanation of why the request cannot be fulfilled, with safe alternatives if available."
+        }
+      },
+      "required": ["kind", "message"],
+      "additionalProperties": false
+    }
+  }
+}

@@ -14,20 +14,24 @@
 ## Phase overview
 
 ```text
-Phase 2: Local-first capability foundation
-  └── Session 0: Typed planning, previews, confirmation, audit events
+Phase 2: Fine-Tuned NeoMint Planner Model
+  ├── Session 0: Define the action schema and task taxonomy
+  ├── Session 1: Curate and validate NeoMint training trajectories
+  ├── Session 2: QLoRA fine-tune in Google Colab
+  ├── Session 3: Offline structured-output evaluation
+  └── Session 4: Quantize and deploy the chosen adapter locally
 
 Phase 3: Agentic loop and safety guardrails
-  ├── Session 1: Local structured planner adapter
-  ├── Session 2: Policy engine and approval service
+  ├── Session 1: Model adapter and constrained plan parser
+  ├── Session 2: Deterministic policy engine and approval service
   └── Session 3: Audit persistence and recovery behavior
 
-Phase 4: Floating overlay UI
-  ├── Session 1: OpenCode-inspired interface shell
+Phase 4: OpenCode-inspired floating overlay UI
+  ├── Session 1: Interface shell and global shortcut
   ├── Session 2: Plan/approval cards and activity feed
   └── Session 3: Keyboard-first desktop integration
 
-Phase 5: Evaluation and release readiness
+Phase 5: Evaluation suite and release readiness
   ├── Session 1: Task and safety benchmark fixtures
   ├── Session 2: Automated regression runner
   └── Session 3: Performance/resource-budget reporting
@@ -35,27 +39,59 @@ Phase 5: Evaluation and release readiness
 
 ---
 
-## Phase 2 — Capability foundation
+## Phase 2 — Fine-Tuned NeoMint Planner Model
 
-**Status:** in progress, with Session 0 complete.
+**Status:** in progress — Session 0 (action schema and task taxonomy) complete.
 
-This is the current foundation: typed local actions, readable plans, previews, explicit confirmation for reversible actions, local execution, and JSON audit events.
+Phase 2 produces a narrow, typed proposed planner. The model's job is intentionally narrow: translate a user's local desktop intent into a typed, explainable, policy-checkable NeoMint plan — or ask a clarification question.
 
-### Completed in Session 0
+**Base model:** Qwen/Qwen3-1.7B (Apache 2.0)
+**Training method:** QLoRA (4-bit quantized base, LoRA adapter)
+**Product adapter:** NeoMint-Planner-1.7B
+**Control baseline:** SmolLM2-1.7B-Instruct
 
-- `find recent PDFs` as a read-only tool.
-- `open <application>` as an approval-required action.
-- `copy <text>` as an approval-required action.
-- Clarification instead of shell fallback for unknown prompts.
-- Initial unit tests around risk and refusal behavior.
+### Session 0 — Action schema and task taxonomy ✓
+
+- Defined the model output contract: plan / clarification / refusal (see [action-plan.schema.json](../fine-tuning/schemas/action-plan.schema.json))
+- Defined the 12-tool typed vocabulary (see [tool-manifest.json](../fine-tuning/schemas/tool-manifest.json))
+- Created seed training dataset with structured trajectories across 10 categories
+- Created dataset validation tooling
+- Updated Ollama modelfile for Qwen3-1.7B structured output
+
+### Session 1 — Curate and validate NeoMint training trajectories
+
+- Expand seed dataset from ~60 to 500+ high-quality examples
+- Strong representation of negative, ambiguous, adversarial, and policy-conflict cases
+- Dataset quality validation passes with zero issues
+- Convert and review legacy Alpaca-format data
+
+### Session 2 — QLoRA fine-tune in Google Colab
+
+- Fine-tune Qwen3-1.7B with QLoRA on Colab T4
+- Train SmolLM2-1.7B baseline with identical data for comparison
+- Hold out validation set for tuning, test set for final evaluation
+
+### Session 3 — Offline structured-output evaluation
+
+- Run held-out test set through fine-tuned adapter
+- Measure: JSON validity, schema conformance, tool grounding, refusal accuracy, prompt injection resistance
+- Compare base Qwen3 vs. fine-tuned vs. SmolLM2 baseline
+
+### Session 4 — Quantize and deploy the chosen adapter locally
+
+- Merge LoRA adapter, export to GGUF Q4_K_M
+- Deploy via Ollama using updated modelfile
+- Verify local inference latency and resource usage
 
 ### Phase 2 exit criteria
 
-- Every tool has a typed input/output contract.
-- Every tool declares its risk level and permission scope.
-- Every state-changing action has a preview and confirmation path.
-- No tool uses unrestricted model-generated shell commands.
-- The session flow is manually runnable and test-covered.
+- The fine-tuned model produces near-perfect JSON/schema validity on held-out cases.
+- No unapproved tool names appear in model output.
+- Required arguments are present and schema-conforming.
+- The model asks clarifying questions for ambiguous requests.
+- The model refuses disallowed actions without offering shell bypasses.
+- The model resists prompt injection attempts.
+- The quantized model fits within the local latency and RAM budget.
 
 ---
 

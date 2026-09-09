@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neomint.local/schemas/tool-manifest.json",
+  "title": "NeoMint Tool Manifest",
+  "description": "Initial tool vocabulary for the NeoMint Planner. 12 typed tools covering filesystem, applications, clipboard, system, notes, and settings. Tools NOT in this manifest are rejected by the policy engine.",
+  "tools": [
+    {
+      "name": "files.search",
+      "description": "Search for files matching criteria within allowed directory roots.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "roots": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Directory paths to search within. Must be within permitted scopes (e.g. ~/Documents, ~/Downloads)."
+          },
+          "name_glob": {
+            "type": "string",
+            "description": "Filename glob pattern (e.g. '*.pdf', '*.txt')."
+          },
+          "modified_within_days": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Only include files modified within this many days."
+          },
+          "max_results": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "description": "Maximum number of results to return."
+          }
+        },
+        "required": ["roots", "name_glob", "max_results"]
+      }
+    },
+    {
+      "name": "files.list_directory",
+      "description": "List the contents of a single directory.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Directory path to list. Must be within permitted scopes."
+          }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "files.open",
+      "description": "Open a file with the system default application.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to open. Must be within permitted scopes."
+          }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "files.move_to_trash",
+      "description": "Move a file or directory to the system Trash (recoverable deletion).",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to move to Trash. Must be within permitted scopes."
+          }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "applications.list",
+      "description": "List installed GUI applications available for launching.",
+      "schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "applications.launch",
+      "description": "Launch a GUI application by its friendly name or desktop entry identifier.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Application name (e.g. 'firefox', 'terminal', 'file manager')."
+          }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "clipboard.read",
+      "description": "Read the current system clipboard text content.",
+      "schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "clipboard.write",
+      "description": "Write text to the system clipboard, replacing current contents.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to place on the clipboard."
+          }
+        },
+        "required": ["text"]
+      }
+    },
+    {
+      "name": "system.status",
+      "description": "Retrieve system status information: disk usage, memory, CPU, uptime, and OS version.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "include": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["disk", "memory", "cpu", "uptime", "os"]
+            },
+            "description": "Which status categories to include. Omit for all."
+          }
+        }
+      }
+    },
+    {
+      "name": "system.list_processes",
+      "description": "List running processes, optionally sorted by resource usage.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "sort_by": {
+            "type": "string",
+            "enum": ["cpu", "memory", "name"],
+            "description": "Sort criterion. Defaults to 'cpu'."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "description": "Maximum number of processes to return. Defaults to 10."
+          }
+        }
+      }
+    },
+    {
+      "name": "notes.create_draft",
+      "description": "Create a new text note file in the user's notes or documents directory.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title for the note (used as filename stem)."
+          },
+          "content": {
+            "type": "string",
+            "description": "Text content of the note."
+          },
+          "directory": {
+            "type": "string",
+            "description": "Target directory. Defaults to ~/Documents."
+          }
+        },
+        "required": ["title", "content"]
+      }
+    },
+    {
+      "name": "settings.show",
+      "description": "Open the system settings application, optionally to a specific panel.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "panel": {
+            "type": "string",
+            "description": "Specific settings panel to open (e.g. 'display', 'network', 'sound'). Omit for main settings."
+          }
+        }
+      }
+    }
+  ],
+  "excluded_tools": {
+    "description": "These tools are explicitly NOT in the first model's vocabulary. They require separate policy, UX, and evaluation work before inclusion.",
+    "tools": [
+      "shell.execute",
+      "system.sudo",
+      "files.delete_permanently",
+      "packages.install",
+      "network.configure",
+      "users.modify",
+      "services.manage"
+    ]
+  }
+}

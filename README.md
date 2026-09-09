@@ -90,11 +90,11 @@ pip install -e ".[dev]"
 |----------------|-------------------------------------------|
 | Base OS        | Linux Mint (Debian-based)                 |
 | LLM Runtime    | Ollama (local, CPU inference)             |
-| Model          | NeoMint-3B (LoRA fine-tuned Qwen2.5-3B)   |
+| Model          | NeoMint-Planner-1.7B (QLoRA fine-tuned Qwen3-1.7B) |
 | MCP Server     | Python 3.11+, `mcp` SDK, asyncio          |
 | Agent Loop     | Raw async Python, httpx                   |
 | Overlay UI     | Tauri v2 (Rust + React + TypeScript)      |
-| Fine-Tuning    | Unsloth, LoRA, GGUF Q4_K_M quantization   |
+| Fine-Tuning    | QLoRA, GGUF Q4_K_M quantization           |
 
 ## Known Limitations
 
@@ -106,10 +106,14 @@ pip install -e ".[dev]"
 
 ## Roadmap
 
-- [x] Phase 2, Session 0: Typed planning, previews, confirmation, audit events
+- [x] Phase 2, Session 0: Action schema and task taxonomy
+- [ ] Phase 2, Session 1: Curate training trajectories
+- [ ] Phase 2, Session 2: QLoRA fine-tune (Qwen3-1.7B)
+- [ ] Phase 2, Session 3: Offline evaluation
+- [ ] Phase 2, Session 4: Quantize and deploy locally
 - [ ] Phase 3: Agentic loop and safety guardrails
-- [ ] Phase 4: Floating overlay UI
-- [ ] Phase 5: Evaluation and release readiness
+- [ ] Phase 4: OpenCode-inspired floating overlay UI
+- [ ] Phase 5: Evaluation suite and release readiness
 - [ ] Future: Vision model, voice input, multi-agent decomposition, bootable ISO
 
 See [docs/roadmap.md](docs/roadmap.md) for the full roadmap.

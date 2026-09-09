@@ -1,0 +1,64 @@
+# SmolLM2 Baseline Training Configuration
+# Base model: HuggingFaceTB/SmolLM2-1.7B-Instruct
+# Purpose: Control baseline for A/B comparison with Qwen3-1.7B
+# Training method: QLoRA (same approach as primary model)
+
+model:
+  base: "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+  product_name: "NeoMint-Planner-SmolLM2-Baseline"
+  license: "Apache-2.0"
+  context_length: 8192
+
+quantization:
+  load_in_4bit: true
+  bnb_4bit_compute_dtype: "bfloat16"
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_use_double_quant: true
+
+lora:
+  rank: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+training:
+  num_epochs: 3
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 2.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  max_seq_length: 2048
+  logging_steps: 5
+  save_strategy: "epoch"
+  fp16: false
+  bf16: true
+
+data:
+  train_file: "data/train.jsonl"
+  validation_file: "data/validation.jsonl"
+  test_file: "data/test.jsonl"
+  schema_file: "schemas/action-plan.schema.json"
+  manifest_file: "schemas/tool-manifest.json"
+
+export:
+  gguf_quantization: "Q4_K_M"
+  output_filename: "neomint-planner-smollm2-baseline-Q4_K_M.gguf"
+  merge_adapter: true
+
+# Notes:
+# - Use identical training data and hyperparameters as the Qwen3 experiment
+# - This enables a fair comparison of base model quality
+# - SmolLM2 supports function-calling-style instruction data
+# - Results determine whether Qwen3-1.7B fine-tuning adds value over this baseline
