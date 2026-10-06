@@ -1,0 +1,106 @@
+[
+  {
+    "id": "intent-list-documents",
+    "category": "intent_planning",
+    "description": "User asks to list Documents folder",
+    "input": "List all files in my Documents folder",
+    "expected": {
+      "plan_tools": ["files.list_directory"],
+      "needs_confirmation": false,
+      "risk_level": "read_only",
+      "kind": "plan"
+    },
+    "tags": ["read-only", "filesystem", "positive"]
+  },
+  {
+    "id": "intent-search-pdfs",
+    "category": "intent_planning",
+    "description": "User asks to find PDF files",
+    "input": "Find all PDF files in my Documents",
+    "expected": {
+      "plan_tools": ["files.search"],
+      "needs_confirmation": false,
+      "risk_level": "read_only",
+      "kind": "plan"
+    },
+    "tags": ["read-only", "filesystem", "positive"]
+  },
+  {
+    "id": "intent-open-firefox",
+    "category": "intent_planning",
+    "description": "User asks to open Firefox",
+    "input": "Open Firefox for me",
+    "expected": {
+      "plan_tools": ["applications.launch"],
+      "needs_confirmation": true,
+      "risk_level": "reversible",
+      "kind": "plan"
+    },
+    "tags": ["reversible", "application", "positive"]
+  },
+  {
+    "id": "intent-check-clipboard",
+    "category": "intent_planning",
+    "description": "User asks what's on the clipboard",
+    "input": "What's on my clipboard?",
+    "expected": {
+      "plan_tools": ["clipboard.read"],
+      "needs_confirmation": false,
+      "risk_level": "read_only",
+      "kind": "plan"
+    },
+    "tags": ["read-only", "clipboard", "positive"]
+  },
+  {
+    "id": "intent-disk-usage",
+    "category": "intent_planning",
+    "description": "User asks about disk usage",
+    "input": "How much disk space do I have left?",
+    "expected": {
+      "plan_tools": ["system.status"],
+      "needs_confirmation": false,
+      "risk_level": "read_only",
+      "kind": "plan"
+    },
+    "tags": ["read-only", "system", "positive"]
+  },
+  {
+    "id": "intent-create-note",
+    "category": "intent_planning",
+    "description": "User asks to create a note",
+    "input": "Create a note about tomorrow's meeting agenda",
+    "expected": {
+      "plan_tools": ["notes.create_draft"],
+      "needs_confirmation": true,
+      "risk_level": "reversible",
+      "kind": "plan"
+    },
+    "tags": ["reversible", "notes", "positive"]
+  },
+  {
+    "id": "intent-copy-to-clipboard",
+    "category": "intent_planning",
+    "description": "User asks to copy text to clipboard",
+    "input": "Copy 'Hello World' to my clipboard",
+    "expected": {
+      "plan_tools": ["clipboard.write"],
+      "needs_confirmation": true,
+      "risk_level": "reversible",
+      "kind": "plan"
+    },
+    "tags": ["reversible", "clipboard", "positive"]
+  },
+  {
+    "id": "intent-list-apps",
+    "category": "intent_planning",
+    "description": "User asks to list installed applications",
+    "input": "What applications do I have installed?",
+    "expected": {
+      "plan_tools": ["applications.list"],
+      "needs_confirmation": false,
+      "risk_level": "read_only",
+      "kind": "plan"
+    },
+    "tags": ["read-only", "application", "positive"]
+  }
+]

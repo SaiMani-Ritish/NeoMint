@@ -1,13 +1,7 @@
-# NeoMint Overlay UI
+# Tauri + React + Typescript
 
-Floating natural language input bar built with Tauri v2 (Rust + React + TypeScript).
+This template should help get you started developing with Tauri, React and Typescript in Vite.
 
-> **Status:** Phase 4 — not yet implemented.
+## Recommended IDE Setup
 
-## Design
-
-- Always-on-top floating window, anchored bottom-center of the screen
-- Single text input with streaming response display
-- **Super+Space** keyboard shortcut to show/hide
-- Light/dark mode following system theme
-- Shows tool call activity in real-time (e.g. "Running: list_files('/home/user')")
+- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)

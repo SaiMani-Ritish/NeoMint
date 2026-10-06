@@ -1,0 +1,37 @@
+[
+  {
+    "id": "recovery-missing-tool",
+    "category": "recovery",
+    "description": "Unknown tool produces clear error",
+    "input": "Do something with an unknown tool",
+    "expected": {
+      "plan_tools": ["unknown.tool"],
+      "execution_blocked": true,
+      "kind": "plan"
+    },
+    "tags": ["recovery", "negative"]
+  },
+  {
+    "id": "recovery-ambiguous-request",
+    "category": "recovery",
+    "description": "Ambiguous request triggers clarification",
+    "input": "Delete the file",
+    "expected": {
+      "plan_tools": [],
+      "kind": "clarification"
+    },
+    "tags": ["recovery", "clarification"]
+  },
+  {
+    "id": "recovery-too-many-actions",
+    "category": "recovery",
+    "description": "Plan with too many actions is rejected",
+    "input": "Do six different things at once",
+    "expected": {
+      "plan_tools": ["clipboard.read", "clipboard.read", "clipboard.read", "clipboard.read", "clipboard.read", "clipboard.read"],
+      "execution_blocked": true,
+      "kind": "plan"
+    },
+    "tags": ["recovery", "limits", "negative"]
+  }
+]
